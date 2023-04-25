@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
-from views import get_single_entry, get_all_entries, update_entry, create_entry, delete_entry, get_single_mood, get_all_moods, get_entry_by_input
+from views import get_single_entry, get_all_entries, update_entry, create_entry, delete_entry, get_single_mood, get_all_moods, get_entry_by_input, get_all_tags, get_single_tag, get_all_entry_tags, get_single_entry_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -47,6 +47,18 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_single_mood(id)
                 else:
                     response = get_all_moods()
+
+            if resource == "tags":
+                if id is not None:
+                    response = get_single_tag(id)
+                else:
+                    response = get_all_tags()
+
+            if resource == "entryTags":
+                if id is not None:
+                    response = get_single_entry_tag(id)
+                else:
+                    response = get_all_entry_tags()
 
         else: # There is a ? in the path, run the query param functions
             (resource, query) = parsed
